@@ -215,4 +215,13 @@ public class RecipeCompilerTest {
     Set<String> loadableDirectives = compile.getSymbols().getLoadableDirectives();
     Assert.assertEquals(4, loadableDirectives.size());
   }
+  
+  @Test
+  public void testValidAggregateStatsDirective() throws Exception {
+    String[] recipe = {
+      "aggregate-stats :transfer :delay total_size total_time unit-size=MB unit-time=s aggregation-type=total"
+    };
+    TestingRig.compile(recipe);
+  }
+
 }

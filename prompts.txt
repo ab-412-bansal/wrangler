@@ -1,0 +1,60 @@
+  Copyright © 2018 Cask Data, Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  use this file except in compliance with the License. You may obtain a copy of
+  the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  License for the specific language governing permissions and limitations under
+  the License.
+  
+  
+Prompt: I'm applying for a software engineer intern role at Zeotap and they gave me an assignment. Can you help me plan out how to tackle it in the best possible way?
+
+Prompt: I need to modify the ANTLR grammar to support BYTE_SIZE and TIME_DURATION tokens like "10KB" or "2.5s" — can you help me write the lexer and parser rules?
+
+Prompt: I've added BYTE_SIZE and TIME_DURATION tokens to Directives.g4 — what should I do next to make sure they're integrated correctly in the Java parser?
+
+Prompt: I noticed the Wrangler grammar uses a 'value' rule — is it better to handle my new tokens there or create new parser rules like byteSizeArg?
+
+Prompt: How do I ensure that my custom tokens like BYTE_SIZE and TIME_DURATION work with the existing token group structure in RecipeVisitor?
+
+Prompt: I've updated RecipeVisitor.java — how do I make it recognize and handle BYTE_SIZE and TIME_DURATION in the visitValue() method?
+
+Prompt: What's the cleanest way to integrate custom token parsing into RecipeVisitor without affecting other existing token types?
+
+Prompt: How do I write ByteSize.java and TimeDuration.java so they parse strings like "1.5MB" or "2min" and return bytes/milliseconds?
+
+Prompt: What's the best way to normalize input and handle edge cases like "10kb" or "5 MS" in ByteSize and TimeDuration?
+
+Prompt: I want to make the error messages for ByteSize and TimeDuration parsing really helpful — how should I write them?
+
+Prompt: Where should I handle invalid input formats like "10ZZ" or "2xs" — in the token classes or inside the directive?
+
+Prompt: I'm adding support for units like KB, MB, and TB — should I use 1024-based or 1000-based conversions? Which is standard?
+
+Prompt: I want to build a new directive called aggregate-stats that takes in a byte size column and a time duration column and outputs total size and time. Can you walk me through it step-by-step?
+
+Prompt: What directory should I put my new directive in if I forked the Wrangler repo recently and the steps folder doesn't exist?
+
+Prompt: Help me write a clean and minimal version of the AggregateStats directive that accumulates totals across rows and outputs one result in MB and seconds.
+
+Prompt: How do I store and retrieve running totals using TransientStore in the execute() and finalize() methods of a directive?
+
+Prompt: In the execute method of my directive, how do I skip rows that are missing values without crashing the pipeline?
+
+Prompt: What's the best way to finalize a directive and return only one row as output instead of one per input row?
+
+Prompt: I want to support optional output units in my directive like MB or seconds — how can I design this cleanly in the arguments?
+
+Prompt: I want to write tests for my new directive. How do I use TestingRig to simulate input rows and recipes?
+
+Prompt: How can I test my ByteSize and TimeDuration token classes separately with different kinds of valid and invalid input?
+
+Prompt: I'm getting test failures after my changes. Most are unrelated to my code, but a few are syntax-related. What should I do when submitting?
+
+Prompt: I'm running `mvn clean install` and getting some unrelated test failures — should I worry about them for the final submission?

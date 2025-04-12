@@ -152,5 +152,35 @@ public enum TokenType implements Serializable {
    * Represents the enumerated type for the object of type {@code String} with restrictions
    * on characters that can be present in a string.
    */
-  IDENTIFIER
+  IDENTIFIER,
+
+  /**
+   * Represents the enumerated type for objects of {@code ByteSize} type.
+   * This type is associated with string values representing data size,
+   * such as "10KB", "1.5MB", "2GB", or "512B". It supports both integer
+   * and decimal values and parses them into their canonical form in bytes.
+   * <p>
+   * Accepted suffixes: B, KB, MB, GB, TB
+   * <p>
+   * Example usage in a directive:
+   * <pre>
+   *   aggregate-stats :data_size ... // where data_size contains values like "100MB", "512KB"
+   * </pre>
+   */
+  BYTE_SIZE,
+  
+  /**
+   * Represents the enumerated type for objects of {@code TimeDuration} type.
+   * This type is associated with string values representing time intervals,
+   * such as "200ms", "2.5s", "1min", or "3h". It supports both integer
+   * and decimal values and parses them into a canonical unit like milliseconds.
+   * <p>
+   * Accepted suffixes: ms (milliseconds), s (seconds), min (minutes), h (hours)
+   * <p>
+   * Example usage in a directive:
+   * <pre>
+   *   aggregate-stats :response_time ... // where response_time contains values like "250ms", "3.2s"
+   * </pre>
+   */
+  TIME_DURATION
 }

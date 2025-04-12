@@ -22,6 +22,7 @@ import io.cdap.wrangler.api.SourceInfo;
 import io.cdap.wrangler.api.Triplet;
 import io.cdap.wrangler.api.parser.Bool;
 import io.cdap.wrangler.api.parser.BoolList;
+import io.cdap.wrangler.api.parser.ByteSize; //For ByteSize
 import io.cdap.wrangler.api.parser.ColumnName;
 import io.cdap.wrangler.api.parser.ColumnNameList;
 import io.cdap.wrangler.api.parser.DirectiveName;
@@ -33,6 +34,7 @@ import io.cdap.wrangler.api.parser.Properties;
 import io.cdap.wrangler.api.parser.Ranges;
 import io.cdap.wrangler.api.parser.Text;
 import io.cdap.wrangler.api.parser.TextList;
+import io.cdap.wrangler.api.parser.TimeDuration; //For TimeDuration
 import io.cdap.wrangler.api.parser.Token;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.Interval;
@@ -316,7 +318,30 @@ public final class RecipeVisitor extends DirectivesBaseVisitor<RecipeSymbol.Buil
     builder.addToken(new TextList(strs));
     return builder;
   }
-
+  
+  @Override
+  public RecipeSymbol.Builder visitValue(DirectivesParser.ValueContext ctx) {
+    String tokenText = ctx.getText();
+  
+    String normalized = tokenText.trim().replaceAll("\\s+", "");
+  
+    if (normalized.matches("(?i)^\\d+(\\.\\d+)?(B|KB|MB|GB|TB)$")) {
+      builder.addToken(new ByteSize(normalized));
+    } else if (normalized.matches("(?i)^\\d+(\\.\\d+)?(ms|s|min|h)$")) {
+      builder.addToken(new TimeDuration(normalized));
+    } else if (ctx.String() != null) {
+      String value = tokenText.substring(1, tokenText.length() - 1);
+      builder.addToken(new Text(value));
+    } else if (ctx.Number() != null) {
+      builder.addToken(new Numeric(new LazyNumber(tokenText)));
+    } else if (ctx.Column() != null) {
+      builder.addToken(new ColumnName(tokenText.substring(1)));
+    } else if (ctx.Bool() != null) {
+      builder.addToken(new Bool(Boolean.parseBoolean(tokenText)));
+    }
+  
+    return builder;
+  }
   private SourceInfo getOriginalSource(ParserRuleContext ctx) {
     int a = ctx.getStart().getStartIndex();
     int b = ctx.getStop().getStopIndex();

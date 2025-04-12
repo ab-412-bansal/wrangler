@@ -140,7 +140,7 @@ numberRange
  ;
 
 value
- : String | Number | Column | Bool
+ : String | Number | Column | Bool | BYTE_SIZE | TIME_DURATION
  ;
 
 ecommand
@@ -307,6 +307,14 @@ fragment Int
  : '-'? [1-9] Digit* [L]*
  | '0'
  ;
+
+// === BYTE SIZE TOKEN ===
+fragment BYTE_UNIT : 'B' | 'KB' | 'MB' | 'GB' | 'TB' ;
+BYTE_SIZE : Digit+ ('.' Digit+)? BYTE_UNIT ;
+
+// === TIME DURATION TOKEN ===
+fragment TIME_UNIT : 'ms' | 's' | 'min' | 'h' ;
+TIME_DURATION : Digit+ ('.' Digit+)? TIME_UNIT ;
 
 fragment Digit
  : [0-9]
