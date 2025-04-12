@@ -216,3 +216,85 @@ Cask is a trademark of Cask Data, Inc. All rights reserved.
 
 Apache, Apache HBase, and HBase are trademarks of The Apache Software Foundation. Used with
 permission. No endorsement by The Apache Software Foundation is implied by the use of these marks.
+
+## ✨ Extension: Byte Size & Time Duration Tokens + `aggregate-stats` Directive
+
+This update extends Wrangler's directive language with:
+
+### 🔹 New Token Types
+
+Supported formats for parsing and conversion:
+
+| Type         | Examples     | Canonical Unit |
+|--------------|--------------|----------------|
+| `ByteSize`   | `1.5MB`, `10KB` | Bytes         |
+| `TimeDuration` | `3min`, `2.5h` | Milliseconds  |
+
+- Case-insensitive
+- Supports both float and integer values
+- Handled in grammar (`Directives.g4`) and integrated in `RecipeVisitor`
+
+---
+
+### 🔹 New Directive: `aggregate-stats`
+
+Aggregates values in two columns — one for byte size and another for time duration.
+
+#### 📌 Usage
+
+```
+aggregate-stats :size_col :time_col out_size out_time unit-size=MB unit-time=s aggregation-type=avg
+```
+
+#### 📋 Parameters
+
+| Name                  | Required | Type         | Description                                  |
+|-----------------------|----------|--------------|----------------------------------------------|
+| `size-column`         | ✅       | `COLUMN_NAME`| Input size values (e.g., `"10MB"`)           |
+| `time-column`         | ✅       | `COLUMN_NAME`| Input time durations (e.g., `"3s"`)          |
+| `output-size-column`  | ✅       | `COLUMN_NAME`| Output column for result size                |
+| `output-time-column`  | ✅       | `COLUMN_NAME`| Output column for result time                |
+| `unit-size`           | ❌       | `TEXT`       | `KB` / `MB` / `GB` (default = `MB`)          |
+| `unit-time`           | ❌       | `TEXT`       | `ms` / `s` / `min` / `h` (default = `s`)     |
+| `aggregation-type`    | ❌       | `TEXT`       | `total` / `avg` (default = `total`)          |
+
+#### ✅ Example
+
+```wrangler
+aggregate-stats :bytes :duration total_bytes total_duration unit-size=MB unit-time=s aggregation-type=avg
+```
+
+---
+
+### 🔍 Testing
+
+Comprehensive test coverage for:
+
+- `ByteSizeTest.java` and `TimeDurationTest.java`: Unit parsing and error handling  
+- `AggregateStatsTest.java`: Validates total and average aggregation modes  
+- `RecipeCompilerTest.java`: Confirms parsing with the new directive
+
+---
+
+### 🧠 Internal Integration
+
+- Grammar updated in `Directives.g4`
+- Visitor logic extended in `RecipeVisitor`
+- Token types added to `TokenType.java`
+- Directive registered via `AggregateStats.java`
+
+---
+
+### 📂 Related Files
+
+- `AggregateStats.java`
+- `ByteSize.java`
+- `TimeDuration.java`
+- Corresponding test classes in `wrangler-core/src/test/...`
+
+---
+
+## 👨‍💻 Developed By
+
+**Your Name** – [your-ayush3778.be22@chitkara.edu.in](mailto:ayush3778.be22@chitkara.edu.in)  
+GitHub: [ab-412-bansal](https://github.com/ab-412-bansal)
