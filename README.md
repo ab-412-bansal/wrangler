@@ -296,5 +296,5 @@ Comprehensive test coverage for:
 
 ## 👨‍💻 Developed By
 
-**Your Name** – [your-ayush3778.be22@chitkara.edu.in](mailto:ayush3778.be22@chitkara.edu.in)  
+**Your Name** – [ayush3778.be22@chitkara.edu.in](mailto:ayush3778.be22@chitkara.edu.in)  
 GitHub: [ab-412-bansal](https://github.com/ab-412-bansal)
